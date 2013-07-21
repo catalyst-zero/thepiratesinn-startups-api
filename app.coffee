@@ -77,7 +77,7 @@ app.get '/auth/angellist/callback',
 
 app.get '/logout', (req, res) ->
   req.logout()
-  res.redirect '/'
+  res.redirect req.query.redirect || '/'
 
 app.get '/account', authenticated, (req, res) ->
   res.send user: req.user
