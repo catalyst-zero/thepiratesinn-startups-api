@@ -11,7 +11,7 @@ search.save = (req, res) ->
   res.send 200
 
 search.query = (req, res) ->
-  angellist.search req.query.q, (err, results) ->
+  angellist.getSearch {query: req.query.q, type: "User"}, (err, results) ->
     console.log err
     res.json results
 

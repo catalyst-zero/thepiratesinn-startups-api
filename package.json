@@ -11,7 +11,7 @@
     "passport": "*",
     "passport-angellist": "*",
     "mongoose": "*",
-    "angellist": "*",
+    "angellist": "git://github.com/teemow/node-angellist.git",
     "angular-resource": "*",
     "cors": "*"
   }
