@@ -6,7 +6,6 @@ AngellistStrategy = require("passport-angellist").Strategy
 models = require "./lib/models"
 angularResource = require "angular-resource"
 cors = require "cors"
-url = require "url"
 
 app = express()
 

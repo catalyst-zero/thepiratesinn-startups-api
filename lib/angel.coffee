@@ -1,4 +1,5 @@
 angellist = require "angellist"
+url = require "url"
 
 exports.init = () ->
   # configure angellist api and find location
