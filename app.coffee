@@ -4,11 +4,9 @@ path = require('path')
 passport = require "passport"
 AngellistStrategy = require("passport-angellist").Strategy
 models = require "./lib/models"
-angellist = require "angellist"
 angularResource = require "angular-resource"
 cors = require "cors"
-
-angellist.init process.env.ANGELLIST_CLIENT_ID, process.env.ANGELLIST_CLIENT_SECRET
+url = require "url"
 
 app = express()
 
@@ -82,7 +80,9 @@ app.get '/logout', (req, res) ->
 app.get '/account', authenticated, (req, res) ->
   res.send user: req.user
 
-angularResource app, '/api/1', 'search', authenticated
+angularResource app, '/api/1', 'startups', authenticated
+angularResource app, '/api/1', 'users', authenticated
+angularResource app, '/api/1', 'jobs', authenticated
 
 http.createServer(app).listen(app.get('port'), () ->
   console.log('Express server listening on port ' + app.get('port'))

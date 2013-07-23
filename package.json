@@ -13,6 +13,8 @@
     "mongoose": "*",
     "angellist": "git://github.com/teemow/node-angellist.git",
     "angular-resource": "*",
-    "cors": "*"
+    "cors": "*",
+    "redis": "*",
+    "hiredis": "*"
   }
 }
