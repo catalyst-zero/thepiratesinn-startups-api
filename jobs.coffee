@@ -15,8 +15,11 @@ jobs.query = (req, res) ->
   location.get (err, location_tag) ->
     res.json {} if not location_tag
 
-    angellist.getTagsJobs {id: location_tag}, (err, results) ->
-      res.json results.jobs
+    params = {id: location_tag}
+    params.page = req.query.page if req.query.page
+
+    angellist.getTagsJobs params, (err, results) ->
+      res.json results
 
 jobs.remove = (req, res) ->
   res.send 200

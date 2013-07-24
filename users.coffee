@@ -15,8 +15,11 @@ users.query = (req, res) ->
   location.get (err, location_tag) ->
     res.json {} if not location_tag
 
-    angellist.getTagsUsers {id: location_tag}, (err, results) ->
-      res.json results.users
+    params = {id: location_tag}
+    params.page = req.query.page if req.query.page
+
+    angellist.getTagsUsers params, (err, results) ->
+      res.json results
 
 users.remove = (req, res) ->
   res.send 200

@@ -15,8 +15,11 @@ startups.query = (req, res) ->
   location.get (err, location_tag) ->
     res.json {} if not location_tag
 
-    angellist.getTagsStartups {id: location_tag}, (err, results) ->
-      res.json results.startups
+    params = {id: location_tag}
+    params.page = req.query.page if req.query.page
+
+    angellist.getTagsStartups params, (err, results) ->
+      res.json results
 
 startups.remove = (req, res) ->
   res.send 200
