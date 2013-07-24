@@ -38,7 +38,6 @@ passport.use(new AngellistStrategy({
     save = 
       angellist_id: profile.id
       name: profile._json.name
-      email: profile._json.email
       avatar_url: profile._json.image
     options = upsert: true
 
