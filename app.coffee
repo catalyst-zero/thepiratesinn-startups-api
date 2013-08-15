@@ -1,11 +1,13 @@
-express = require('express')
-http = require('http')
-path = require('path')
+express = require 'express'
+http = require 'http'
+path = require 'path'
 passport = require "passport"
 AngellistStrategy = require("passport-angellist").Strategy
-models = require "./lib/models"
 angularResource = require "angular-resource"
 cors = require "cors"
+
+models = require "./lib/models"
+seed = require "./lib/seed"
 
 app = express()
 
@@ -39,6 +41,7 @@ passport.use(new AngellistStrategy({
       angellist_id: profile.id
       name: profile._json.name
       avatar_url: profile._json.image
+      access_token: accessToken
     options = upsert: true
 
     models.Users.findOneAndUpdate find, save, options, (err, user) ->
@@ -78,10 +81,11 @@ app.get '/logout', (req, res) ->
 app.get '/account', authenticated, (req, res) ->
   res.send user: req.user
 
+angularResource app, '/api/1', 'feeds', authenticated
 angularResource app, '/api/1', 'startups', authenticated
 angularResource app, '/api/1', 'users', authenticated
 angularResource app, '/api/1', 'jobs', authenticated
 
-http.createServer(app).listen(app.get('port'), () ->
-  console.log('Express server listening on port ' + app.get('port'))
-)
+seed.init () ->
+  http.createServer(app).listen app.get('port'), () ->
+    console.log('Express server listening on port ' + app.get('port'))

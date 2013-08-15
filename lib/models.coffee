@@ -7,5 +7,6 @@ UserSchema = new mongoose.Schema
   email: String
   name: String
   avatar_url: String
+  access_token: String
 
 exports.Users = mongoose.model "users", UserSchema
