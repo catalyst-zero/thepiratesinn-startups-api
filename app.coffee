@@ -18,7 +18,7 @@ app.use express.cookieParser()
 app.use express.bodyParser()
 app.use express.methodOverride()
 app.use express.session secret: process.env.SESSION_SECRET
-app.use cors({origin: true, credentials: true, headers: ['X-Requested-With']})
+app.use cors({origin: true, headers: ['X-Requested-With']})
 
 app.use passport.initialize()
 app.use passport.session()
