@@ -81,10 +81,10 @@ app.get '/logout', (req, res) ->
 app.get '/account', authenticated, (req, res) ->
   res.send user: req.user
 
-angularResource app, '/api/1', 'feeds', authenticated
-angularResource app, '/api/1', 'startups', authenticated
-angularResource app, '/api/1', 'users', authenticated
-angularResource app, '/api/1', 'jobs', authenticated
+angularResource app, '/api/1', 'feeds'
+angularResource app, '/api/1', 'startups'
+angularResource app, '/api/1', 'users'
+angularResource app, '/api/1', 'jobs'
 
 seed.init () ->
   http.createServer(app).listen app.get('port'), () ->
