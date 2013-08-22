@@ -1,13 +1,12 @@
 express = require 'express'
 http = require 'http'
 path = require 'path'
-passport = require "passport"
-AngellistStrategy = require("passport-angellist").Strategy
 angularResource = require "angular-resource"
 cors = require "cors"
 
 models = require "./lib/models"
 seed = require "./lib/seed"
+AngellistAuth = require "./lib/angellist-auth"
 
 app = express()
 
@@ -20,33 +19,17 @@ app.use express.methodOverride()
 app.use express.session secret: process.env.SESSION_SECRET
 app.use cors({origin: true, credentials: true, headers: ['X-Requested-With']})
 
-app.use passport.initialize()
-app.use passport.session()
+auth = new AngellistAuth app, models
 
-passport.serializeUser (user, done) ->
-  done null, user.id
+timestamp = Date.now()
+app.use((req, res, next) ->
+  now = Date.now()
 
-passport.deserializeUser (id, done) ->
-  models.Users.findById id, (err, user) ->
-    done err, user
-
-passport.use(new AngellistStrategy({
-    clientID: process.env.ANGELLIST_CLIENT_ID
-    clientSecret: process.env.ANGELLIST_CLIENT_SECRET
-    callbackURL:  "#{process.env.BASE_URI}/auth/angellist/callback"
-  }, 
-  (accessToken, refreshToken, profile, done) ->
-    find = angellist_id: profile.id
-    save = 
-      angellist_id: profile.id
-      name: profile._json.name
-      avatar_url: profile._json.image
-      access_token: accessToken
-    options = upsert: true
-
-    models.Users.findOneAndUpdate find, save, options, (err, user) ->
-      done err, user
-))
+  if now > (timestamp + 3600000)
+    seed.init () ->
+      console.log "seeding update successful"
+  next()
+)
 
 app.use app.router
 app.use express.static(path.join(__dirname, 'public'))
@@ -54,32 +37,7 @@ app.use express.static(path.join(__dirname, 'public'))
 if ('development' == app.get('env'))
   app.use(express.errorHandler())
 
-authenticated = (req, res, next) ->
-  if req.isAuthenticated()
-    next()
-  else
-    res.send 401
-
-app.get '/', authenticated, (req, res) ->
-  res.json {hello: "world"}
-
-rememberRedirect = (req, res, next) ->
-  req.session.redirect_to = req.query.redirect
-  next()
-
-app.get '/auth/angellist', rememberRedirect, 
-  passport.authenticate('angellist', failureRedirect: '/'), (req, res) ->
-
-app.get '/auth/angellist/callback',
-  passport.authenticate('angellist'), (req, res) ->
-    res.redirect req.session.redirect_to || '/account'
-
-app.get '/logout', (req, res) ->
-  req.logout()
-  res.redirect req.query.redirect || '/'
-
-app.get '/account', authenticated, (req, res) ->
-  res.send user: req.user
+auth.addRoutes()
 
 angularResource app, '/api/1', 'feeds'
 angularResource app, '/api/1', 'startups'
@@ -87,5 +45,6 @@ angularResource app, '/api/1', 'users'
 angularResource app, '/api/1', 'jobs'
 
 seed.init () ->
+  console.log "initial seeding successful"
   http.createServer(app).listen app.get('port'), () ->
     console.log('Express server listening on port ' + app.get('port'))

@@ -24,7 +24,7 @@ class RedisClient
 
       for item in data
         if not item.data.hidden
-          item.id = item.data.id
+          item.id = "#{path}-#{item.data.id}"
           item.type = path
 
           # set with ids unsorted

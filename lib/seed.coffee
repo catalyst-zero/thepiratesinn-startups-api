@@ -36,7 +36,8 @@ fetchAll = (method, path, startups, cb, result = []) ->
   done = 0
 
   for startup in startups
-    query = startup_id: startup.id
+    id = startup.id.split("-")[1]
+    query = startup_id: id
     angellist[method] query, (err, results) ->
       result.push(
         data: item
@@ -53,14 +54,18 @@ exports.init = (cb) ->
     callback = (err, results) -> console.log err if err
     query = id: location_tag
 
-    fetchAllPages "getTagsStartups", "startups", query, callback
-    fetchAllPages "getTagsUsers", "users", query, callback
-    fetchAllPages "getTagsJobs", "jobs", query, callback
+    # ugly: use async here
+    fetchAllPages "getTagsStartups", "startups", query, (err) ->
+      console.log err if err
+      fetchAllPages "getTagsUsers", "users", query, (err) ->
+        console.log err if err
+        fetchAllPages "getTagsJobs", "jobs", query, (err) ->
+          console.log err if err
 
-    client.getSet "startups", (err, startups) =>
-      # fetch all status updates
-      fetchAll "getStatusUpdates", "status_updates", startups, callback
-      fetchAll "getStartupPress", "press", startups, callback
-
-
-    cb()
+          client.getSet "startups", (err, startups) =>
+            # fetch all status updates
+            fetchAll "getStatusUpdates", "status_updates", startups, (err) ->
+              console.log err if err
+              fetchAll "getStartupPress", "press", startups, (err) ->
+                console.log err if err
+                cb()
