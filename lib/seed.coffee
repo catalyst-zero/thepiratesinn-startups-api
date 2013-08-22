@@ -35,7 +35,7 @@ fetchAllPages = (method, path, query, cb, result = []) ->
 fetchAll = (method, path, startups, cb, result = []) ->
   done = 0
 
-  for startup in startups
+  startups.forEach (startup) ->
     id = startup.id.split("-")[1]
     query = startup_id: id
     angellist[method] query, (err, results) ->
