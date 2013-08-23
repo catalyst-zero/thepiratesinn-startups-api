@@ -11,17 +11,22 @@ client = new RedisClient()
 fetchAllPages = (method, path, query, cb, result = []) ->
   query.page = 1 if not query.page?
 
-  tmp = {}
+  # this is ridiculous, but necessary since the query object is 
+  # altered in the angellist module and here for pagination
+  query_for_angellist = {}
   for key of query
-    tmp[key] = query[key]
+    query_for_angellist[key] = query[key]
+  query_for_pagination = {}
+  for key of query
+    query_for_pagination[key] = query[key]
 
   # fetch data from api
-  angellist[method] tmp, (err, results) ->
+  angellist[method] query_for_angellist, (err, results) ->
     return cb(err) if err
 
     result.push(
       data: item
-      query: query
+      query: query_for_angellist
     ) for item in results[path]
 
     if results.page >= results.last_page
@@ -29,8 +34,8 @@ fetchAllPages = (method, path, query, cb, result = []) ->
       return client.addSet path, result, cb
 
     # fetch next page
-    query.page++
-    fetchAllPages method, path, query, cb, result
+    query_for_pagination.page++
+    fetchAllPages method, path, query_for_pagination, cb, result
 
 fetchAll = (method, path, startups, cb, result = []) ->
   done = 0
