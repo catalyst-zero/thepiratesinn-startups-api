@@ -11,9 +11,9 @@ class RedisClient
       cache = 
         host: redisURL.hostname
         port: redisURL.port
-        auth: redisURL.auth.split(":")[1]
         options:
           no_ready_check: true
+      cache.auth = redisURL.auth.split(":")[1] if redisURL.auth
 
     @client = redis.createClient cache.port, cache.host, cache.options
     @client.auth cache.auth if cache.auth

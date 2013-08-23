@@ -9,9 +9,9 @@ exports.init = () ->
     cache = 
       host: redisURL.hostname
       port: redisURL.port
-      auth: redisURL.auth.split(":")[1]
       options:
         no_ready_check: true
+    cache.auth = redisURL.auth.split(":")[1] if redisURL.auth
 
   angellist.init process.env.ANGELLIST_CLIENT_ID, process.env.ANGELLIST_CLIENT_SECRET, cache
 
