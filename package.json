@@ -8,7 +8,7 @@
     "passport": "*",
     "passport-angellist": "*",
     "mongoose": "*",
-    "angellist": "git://github.com/teemow/node-angellist.git",
+    "angellist": "git://github.com/teemow/node-angellist.git#master",
     "angular-resource": "*",
     "cors": "*",
     "redis": "*",
