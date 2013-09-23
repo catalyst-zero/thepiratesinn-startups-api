@@ -6,26 +6,34 @@ A simple API wrapper for Angellist. Fetches all the Angellist information about 
 
 Clone this repository
 
-    git clone https://github.com/d27y/thepiratesinn-startups
-    cd thepiratesinn-startups
+    git clone https://github.com/d27y/thepiratesinn-startups-api
+    cd thepiratesinn-startups-api
 
-Install the necessary node and client modules.
+Install the necessary npm modules.
 
     npm install
-    bower install
+
+## Dependencies
+
+Redis and MongoDB are required to run the API.
+
+## Environment
+
+You need to configure your environment to contain the following variables. 
+
+* SESSION\_SECRET (random string to salt the session)
+* ANGELLIST\_CLIENT\_ID (angellist api auth)
+* ANGELLIST\_CLIENT\_SECRET (angellist api auth)
+* BASE\_URI (url for the api)
+* MONGOHQ\_URL (uses localhost if not specified)
+* REDISCLOUD\_URL (uses localhost if not specified)
 
 ## Development
 
-Use grunt to run the application locally. It watches for local changes and reloads the browser automatically.
+Use foreman to run the application locally. You need to set up some environment variables. Create an ``.env`` file in this folder and add all the necessary environment variables.
 
-    npm install -g grunt
-    grunt server
+    foreman start web
 
 ## Deployment
 
-This application is a simple static HTML / Javascript page. To deploy on a Paas like Heroku you need a static webserver. The static webserver is in /dokku (dokku is an open source mini-heroku). 
-
-    grunt build
-
-The application is now compiled in the /dist folder. To deploy to heroku make /dist a separate git repository and push the code. Same for dokku.
-
+It is easy to deploy this api on Heroku or Dokku. Just add the Redis and MongoDB Addons to your app and configure the Heroku environment. Push your code and install the [webapp](https://github.com/d27y/thepiratesinn-startups).
