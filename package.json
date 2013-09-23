@@ -2,6 +2,12 @@
   "name": "pirates-api",
   "version": "0.1.0",
   "private": true,
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/d27y/thepiratesinn-startups-api/blob/master/LICENSE"
+    }
+  ],
   "dependencies": {
     "express": "3.3.4",
     "coffee-script": "*",
