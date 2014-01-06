@@ -1,5 +1,4 @@
 angellist = require("./angel").init()
-crunchbase = require("./crunch").init()
 location = require "./location"
 
 RedisClient = require("./redis-client")

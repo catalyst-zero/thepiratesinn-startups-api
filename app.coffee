@@ -4,9 +4,7 @@ path = require 'path'
 angularResource = require "angular-resource"
 cors = require "cors"
 
-models = require "./lib/models"
 seed = require "./lib/seed"
-AngellistAuth = require "./lib/angellist-auth"
 
 app = express()
 
@@ -18,8 +16,6 @@ app.use express.bodyParser()
 app.use express.methodOverride()
 app.use express.session secret: process.env.SESSION_SECRET
 app.use cors({origin: true, credentials: true, headers: ['X-Requested-With']})
-
-auth = new AngellistAuth app, models
 
 timestamp = Date.now()
 app.use((req, res, next) ->
@@ -36,8 +32,6 @@ app.use express.static(path.join(__dirname, 'public'))
 
 if ('development' == app.get('env'))
   app.use(express.errorHandler())
-
-auth.addRoutes()
 
 angularResource app, '/api/1', 'feeds'
 angularResource app, '/api/1', 'startups'

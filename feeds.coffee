@@ -1,4 +1,3 @@
-crunchbase = require("./lib/crunch").init()
 RedisClient = require("./lib/redis-client")
 
 client = new RedisClient()

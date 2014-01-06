@@ -13,12 +13,10 @@
     "coffee-script": "*",
     "passport": "*",
     "passport-angellist": "*",
-    "mongoose": "*",
-    "angellist": "git://github.com/teemow/node-angellist.git#master",
+    "angellist": "git://github.com/teemow/node-angellist.git#v0.3.5",
     "angular-resource": "*",
     "cors": "*",
     "redis": "*",
-    "hiredis": "*",
-    "crunchbase": "*"
+    "hiredis": "*"
   }
 }
