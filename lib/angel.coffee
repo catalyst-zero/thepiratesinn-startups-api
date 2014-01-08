@@ -4,8 +4,8 @@ url = require "url"
 exports.init = () ->
   # configure angellist api and find location
   cache = true
-  if process.env.REDISCLOUD_URL
-    redisURL = url.parse process.env.REDISCLOUD_URL
+  if process.env.REDIS_URL
+    redisURL = url.parse process.env.REDIS_URL
     cache = 
       host: redisURL.hostname
       port: redisURL.port
