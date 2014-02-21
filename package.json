@@ -11,8 +11,6 @@
   "dependencies": {
     "express": "3.3.4",
     "coffee-script": "*",
-    "passport": "*",
-    "passport-angellist": "*",
     "angellist": "git://github.com/teemow/node-angellist.git#v0.3.5",
     "angular-resource": "*",
     "cors": "*",
