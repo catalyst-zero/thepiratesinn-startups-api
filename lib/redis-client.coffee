@@ -15,6 +15,14 @@ class RedisClient
           no_ready_check: true
       cache.auth = redisURL.auth.split(":")[1] if redisURL.auth
 
+    if process.env.REDIS_1_PORT_6379_TCP_ADDR
+      cache =
+        host: process.env.REDIS_1_PORT_6379_TCP_ADDR
+        port: process.env.REDIS_1_PORT_6379_TCP_PORT
+        options:
+          no_ready_check: true
+      cache.auth = false
+
     @client = redis.createClient cache.port, cache.host, cache.options
     @client.auth cache.auth if cache.auth
 

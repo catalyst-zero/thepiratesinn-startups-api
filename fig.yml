@@ -1,0 +1,11 @@
+web:
+  build: .
+  command: foreman start web
+  ports:
+    - 5000:5000
+  volumes:
+    - .:/app
+  links:
+    - redis
+redis:
+  image: orchardup/redis
