@@ -14,7 +14,7 @@
     "angellist": "git://github.com/teemow/node-angellist.git#v0.3.5",
     "angular-resource": "0.1.1",
     "cors": "*",
-    "redis": "*",
-    "hiredis": "*"
+    "redis": "0.10.1",
+    "hiredis": "0.1.16"
   }
 }
